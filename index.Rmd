@@ -87,48 +87,23 @@ Noticias {.storyboard data-icon="fa-newspaper"}
 ===
 
 ### EL INICIO DE LA IMPLEMENTACIÓN
-
-![](https://www.epsilo.com.pe/uploads/Documentos/Publicaciones/Noticias/2022_Img23_EPSILOIniciaImplementacionMecanismosEcosistemicosHidricos/2022_Img23.1_EPSILOIniciaImplementacionMecanismosEcosistemicosHidricos.jpg)
-
-***
-
-<center>
-
-***EPS ILO S.A. INICIA IMPLEMENTACIÓN DE LOS MECANISMOS DE RETRIBUCIÓN POR SERVICIOS ECOSISTÉMICOS HÍDRICOS (MRSE-HÍDRICO)***
-
-*Trabajos se realizan con la finalidad de conservar, restaurar y asegurar la sostenibilidad del recurso hídrico.*
-
-Ilo, 26 de setiembre 2022
-
-La EPS ILO S.A. ha presentado el informe final del Diseño de los Mecanismos de Retribución por Servicios Ecosistémicos Hídricos MRSE- Hídrico, a la Superintendencia Nacional de Servicios de Saneamiento – SUNASS como ente regulador, para su evaluación y pronta aprobación, para así dar inicio a la ejecución del Plan de Intervención del MRSE-Hídrico.
-</center>
+![](TIME_LINE/F1.png)
 
 ### SUPERVISIÓN DE ZANJAS DE INFILTRACIÓN
 
-![](noticia1.png )
+![](TIME_LINE/F1.1.png)
 
-### FIRMA DE ACUERDO INSTITUCIONAL 2023
+### VERIFICACIÓN DE INSTALACIÓN DE PLUVIÓMETRO
 
-![](acuerdo.jpg)
+![](TIME_LINE/F2.png)
 
-***
+### PARTICIPACIÓN EN PLATAFORMA DE BUENA GOBERNANZA
 
-<center>
+![](TIME_LINE/F3.png)
 
-***EPS Ilo S.A. realiza visita técnica y firma acuerdo institucional con la Comunidad Campesina de Asana.***
+### APROBACIÓN DEL ACUERDO MERESE ANTE EL MINAM
 
-*25 de febrero del 2023*
-
-EPS ILO y la Comunidad Campesina de Asana suscribieron un compromiso para la intervención del MRSE durante el año 2023. Asimismo, se reunieron los comuneros de la zona para conocer el funcionamiento de la estación pluviométrica.
-
-</center>
-
-### NOTICIA 1
-
-![](1.1.jpg)
-
-
-### NOTICIA 2
+![](TIME_LINE/F4.png)
 
 Precipitación {data-icon="fa-chart-simple"}
 ===
