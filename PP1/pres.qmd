@@ -1,0 +1,33 @@
+---
+title: "Mecanismos de Retribución por Servicios Ecosistémicos"
+author: "MRSE-H"
+title-slide-attributes: 
+  data-background-image: "https://i0.wp.com/www.sunass.gob.pe/wp-content/uploads/2022/04/WhatsApp-Image-2022-04-07-at-9.03.43-PM.jpeg"
+format: 
+  revealjs:
+    logo: "https://www.epsilo.com.pe/uploads/Logos/nuevoLogoEpsilo2.png"
+    footertext: "MRSE HÍDRICO"
+    theme: dark
+self-contained: true
+editor: visual
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+library(xaringanExtra)
+library(tidyverse)
+library(ggthemes)
+```
+
+## Gráfico de Cajas
+
+```{r}
+#| label: fig-graf1
+#| fig-cap: Gráfico de cajas
+iris %>% 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_boxplot(aes(fill = Species, color = Species)) +
+  see::theme_abyss()
+```
