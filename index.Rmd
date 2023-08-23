@@ -40,48 +40,106 @@ Column {data-width=200}
 
 ### <span style="color:darkblue;font-weight:bold;">Bienvenida</span>
 
-> ***MRSE Hídricos de la EPS Ilo S.A.***
->
->
->
->EPS Ilo S.A. realiza implementación del Plan de Intervención los MRSE en la Comunidad Campesina de Asana con la finalidad de conservación y recuperación de los Servicios Ecosistemos Hídricos.
->
->
->
->
-> ***Bienvenido a esta plataforma de acceso público***
+***MRSE Hídricos de la EPS Ilo S.A.***
 
-> --- ***Equipo MRSE***
+> EPS Ilo S.A. realiza implementación del Plan de Intervención los MRSE en la Comunidad Campesina de Asana con la finalidad de conservación y recuperación de los Servicios Ecosistémicos Hídricos.
+
+***Bienvenido a esta plataforma de acceso público***
+
+
+***Equipo MRSE***
+
 
 Column {.tabset data-width="600" .tabset-fade}
 ---
-<center>
-<b>Hola</b><br>
-Aquí te presentamos una breve infografía esperando sea de tu agrado y ayude para una mejor comprensión de lo que puede hacer un MRSE.
-</center>
 
-### <span style="color:darkblue;font-weight:bold;">Hoja 1</span>
+### <span style="color:darkblue;font-weight:bold;">Ubicación de las intervenciones</span>
 
-![](hoja1.png)
+<div class="contenedor-imagen">
+  <img src="hoja1.png" alt="Imagen 1">
+  <img src="hoja2.png" alt="Imagen 2">
+  <img src="hoja3.png" alt="Imagen 3">
+</div>
 
-### <span style="color:darkblue;font-weight:bold;">Hoja 2</span>
+<style>
+/* Estilos para el contenedor de la transición */
+.contenedor-imagen {
+  width: 100%;
+  height: 700px;
+  position: relative;
+  overflow: hidden;
+}
 
-![](hoja2.png)
+/* Estilos para las imágenes */
+.contenedor-imagen img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Estilo para mostrar la primera imagen */
+.contenedor-imagen img:first-child {
+  opacity: 1;
+}
+
+/* Estilo para las imágenes anteriores */
+.image-previous {
+  opacity: 0.5;
+  left: -100%; /* Mover la imagen a la izquierda para que se muestre al lado */
+}
+</style>
+
+<script>
+var currentImage = 0;
+var images = document.querySelectorAll('.contenedor-imagen img');
+
+function changeImage() {
+  images[currentImage].classList.add('image-previous'); // Agregar clase a la imagen anterior
+  images[currentImage].style.opacity = 0;
+
+  currentImage = (currentImage + 1) % images.length;
+
+  images[currentImage].style.opacity = 1;
+  images[currentImage].classList.remove('image-previous'); // Eliminar clase de la imagen anterior
+}
+
+setInterval(changeImage, 6000); // Cambia la imagen cada 3 segundos
+</script>
+
 
 Column {data-width=350}
 ---
 
 ### <span style="color:darkblue;font-weight:bold;">Presentación del MRSE-H </span>
+Aquí te mostramos una breve presentación acerca de lo que implican los MRSE Hídricos.<br>
+
+
+> Si deseas visualizar la presentación en modo pantalla completa presiona **F** después de hacer clic sobre la presentación. También posee controles adicionales, para conocerlos presiona **H** después de haber seleccionado la presentación.
 
 ```{r}
 embed_xaringan("m2/pres.html",ratio="4:3")
 ```
 
-### <span style="color:darkblue;font-weight:bold;">Ubicación de las intervenciones</span>
+<span style="color:darkblue;font-weight:bold;">Información de contacto</span>
 
-<iframe width="100%" height="450" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-HIDRICO-EPS-ILO-S-A-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.04828,-70.48587,13.67z"></iframe>
+<center>
+**Correo del MRSE**<br>
+Puedes comunicarte a través del correo:<br>
+mrse.epsilo@gmail.com
 
 
+</center>
+
+Mapa {data-icon="fa-map"}
+===
+
+<iframe width="100%" height="692" frameborder="10" title="Felt Map" src="https://felt.com/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.04664,-70.49325,13.48z"></iframe>
+
+> **En este apartado se muestra un mapa web para ubicar espacialmente los elementos de nuestras intervenciones en Asana.**
 
 Noticias {.storyboard data-icon="fa-newspaper"}
 ===
@@ -138,7 +196,7 @@ df3 <- df[,c(1,2)] %>% mutate(
   fecha2 = format(fecha, format = "%m"),
   fecha3 = format(fecha, format= "%d")) %>% 
   group_by(fecha,fecha1,fecha2,fecha3) %>% 
-  summarise(Precipitacion= sum(Precipitacion,na.rm=T)) %>% 
+  summarise(Precipitacion= sum(Precipitacion,na.rm=F)) %>% 
   ungroup()
 
 # Gráfico de barras para facetas:
@@ -244,7 +302,7 @@ n <-   ggplot(dat_pr,
                       high = "#3182BD",na.value = "white")+
   facet_wrap(~ month, nrow = 4,
              ncol = 3, scales = "free") +
-  labs(title = "¿Cuánto ha llovido en Asana?",
+  labs(title = "¿Cuánto ha llovido?",
        subtitle = "Precipitación Mensual",
        fill = "Precipitación (mm)") +
   theme_calendar()
@@ -258,24 +316,27 @@ ggplotly(n)
 data <- df[,c(1,2)]
 data$fecha <- as.numeric(data$fecha)*1000-(5*3600*1000)
 
-highchart() %>%
+highchart(type = "stock") %>%
   hc_title(text = "Estación Asana (Datos crudos)") %>%
   hc_xAxis(type = "datetime") %>%
   hc_add_series(data = data, type = "column",
-                hcaes(x=fecha,y=Precipitacion),
-                name="Precipitacion",color="#3182BD") %>%
+                hcaes(x = fecha, y = Precipitacion),
+                name = "Precipitacion", color = "#3182BD") %>%
   hc_exporting(
     enabled = TRUE,
     buttons = list(
       contextButton = list(
         menuItems = c("downloadPNG",
-                      "downloadCSV",
                       "downloadPDF",
-                      "downloadJPEG",
+                      "separator",
+                      "downloadCSV",
                       "downloadXLS",
                       "separator",
-                      "resetZoom")))) %>% 
-  hc_xAxis(type = "datetime", showLastLabel = FALSE,
+                      "resetZoom")
+      )
+    )
+  ) %>% 
+  hc_xAxis(type = "datetime", showLastLabel = TRUE,
            dateTimeLabelFormats = list(month = "%B")) %>% 
   hc_tooltip(shared = TRUE, useHTML = TRUE) %>% 
   hc_chart(zoomType = "x")
@@ -316,4 +377,3 @@ valueBox(max(df$fecha), icon = "fa-pencil")
 ```{r}
 ggplotly(a1)
 ```
-
