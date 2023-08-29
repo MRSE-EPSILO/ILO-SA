@@ -27,6 +27,7 @@ library(ggthemes)
 library(openair)
 library(lubridate)
 library(ragg)
+library(vembedr)
 ```
 
 Presentación {data-icon="fa-droplet"}
@@ -35,7 +36,8 @@ Presentación {data-icon="fa-droplet"}
 Column {data-width=200}
 ---
 <center>
-![](https://cdn.www.gob.pe/uploads/campaign/photo/000/001/008/Logo-EALV-sin-fondo.png){width="200"}
+<!-- ![](https://cdn.www.gob.pe/uploads/campaign/photo/000/001/008/Logo-EALV-sin-fondo.png){width="200"} -->
+![](mrse_logo.png){width="100%"}
 </center>
 
 ### <span style="color:darkblue;font-weight:bold;">Bienvenida</span>
@@ -46,9 +48,13 @@ Column {data-width=200}
 
 ***Bienvenido a esta plataforma de acceso público***
 
-
 ***Equipo MRSE***
-
+<br><br><br><br>
+<center>
+**Correo del MRSE**<br>
+Puedes comunicarte a través del correo:<br>
+mrse.epsilo@gmail.com
+</center>
 
 Column {.tabset data-width="600" .tabset-fade}
 ---
@@ -56,7 +62,7 @@ Column {.tabset data-width="600" .tabset-fade}
 ### <span style="color:darkblue;font-weight:bold;">Ubicación de las intervenciones</span>
 
 <div class="contenedor-imagen">
-  <img src="hoja1.png" alt="Imagen 1">
+  <img src="fondo2.png" alt="Imagen 1">
   <img src="hoja2.png" alt="Imagen 2">
   <img src="hoja3.png" alt="Imagen 3">
 </div>
@@ -110,34 +116,28 @@ function changeImage() {
 setInterval(changeImage, 6000); // Cambia la imagen cada 3 segundos
 </script>
 
-
-Column {data-width=350}
+Column {data-width=300}
 ---
 
 ### <span style="color:darkblue;font-weight:bold;">Presentación del MRSE-H </span>
-Aquí te mostramos una breve presentación acerca de lo que implican los MRSE Hídricos.<br>
 
-
-> Si deseas visualizar la presentación en modo pantalla completa presiona **F** después de hacer clic sobre la presentación. También posee controles adicionales, para conocerlos presiona **H** después de haber seleccionado la presentación.
+> Si deseas visualizar la presentación en modo pantalla completa presiona **F**. También posee controles adicionales, para conocerlos presiona **H** después de haber seleccionado la presentación.
 
 ```{r}
 embed_xaringan("m2/pres.html",ratio="4:3")
 ```
-
-<span style="color:darkblue;font-weight:bold;">Información de contacto</span>
-
 <center>
-**Correo del MRSE**<br>
-Puedes comunicarte a través del correo:<br>
-mrse.epsilo@gmail.com
 
+```{r}
+embed_youtube("FqETSuNF4ks", height = 195, width = 325,allowfullscreen = TRUE)
+```
 
 </center>
 
 Mapa {data-icon="fa-map"}
 ===
 
-<iframe width="100%" height="692" frameborder="10" title="Felt Map" src="https://felt.com/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.04664,-70.49325,13.48z"></iframe>
+<iframe width="100%" height="690" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.05283,-70.48552,13.13z"></iframe>
 
 > **En este apartado se muestra un mapa web para ubicar espacialmente los elementos de nuestras intervenciones en Asana.**
 
