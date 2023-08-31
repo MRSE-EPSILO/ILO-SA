@@ -63,8 +63,8 @@ Column {.tabset data-width="600" .tabset-fade}
 
 <div class="contenedor-imagen">
   <img src="fondo2.png" alt="Imagen 1">
-  <img src="fondo2.png" alt="Imagen 2">
-  <img src="fondo2.png" alt="Imagen 3">
+  <img src="fondo3.png" alt="Imagen 2">
+  <img src="fondo4.png" alt="Imagen 3">
 </div>
 
 <style>
