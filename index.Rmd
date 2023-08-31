@@ -137,7 +137,7 @@ embed_youtube("FqETSuNF4ks", height = 195, width = 325,allowfullscreen = TRUE)
 Mapa {data-icon="fa-map"}
 ===
 
-<iframe width="100%" height="690" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.05283,-70.48552,13.13z"></iframe>
+<iframe width="100%" height="600" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.06208,-70.49555,12.55z"></iframe>
 
 > **En este apartado se muestra un mapa web para ubicar espacialmente los elementos de nuestras intervenciones en Asana.**
 
