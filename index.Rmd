@@ -20,11 +20,11 @@ library(flexdashboard)
 library(highcharter)
 library(tidyverse)
 library(xts)
-library(DT)
+#library(DT)
 library(xaringanExtra)
 library(plotly)
 library(ggthemes)
-library(openair)
+#library(openair)
 library(lubridate)
 library(ragg)
 library(vembedr)
@@ -42,79 +42,128 @@ Column {data-width=200}
 
 ### <span style="color:darkblue;font-weight:bold;">Bienvenida</span>
 
-***MRSE Hídricos de la EPS Ilo S.A.***
+***MRSE-H de la EPS Ilo S.A.***
 
 > EPS Ilo S.A. realiza implementación del Plan de Intervención los MRSE en la Comunidad Campesina de Asana con la finalidad de conservación y recuperación de los Servicios Ecosistémicos Hídricos.
 
 ***Bienvenido a esta plataforma de acceso público***
 
 ***Equipo MRSE***
-<br><br><br><br>
+<br><br>
 <center>
 **Correo del MRSE**<br>
 Puedes comunicarte a través del correo:<br>
 mrse.epsilo@gmail.com
 </center>
 
-Column {.tabset data-width="600" .tabset-fade}
+Column {.tabset data-width="500" .tabset-fade}
 ---
 
 ### <span style="color:darkblue;font-weight:bold;">Ubicación de las intervenciones</span>
 
 <div class="contenedor-imagen">
-  <img src="fondo2.png" alt="Imagen 1">
-  <img src="fondo3.png" alt="Imagen 2">
-  <img src="fondo4.png" alt="Imagen 3">
+  <img src="fondo2.jpg" alt="Imagen 1">
+  <img src="fondo3.jpg" alt="Imagen 2">
+  <img src="fondo4.jpg" alt="Imagen 3">
 </div>
 
+<!-- Agrega botones para avanzar y retroceder -->
+<button id="anterior">Anterior</button>
+<button id="siguiente">Siguiente</button>
+
 <style>
-/* Estilos para el contenedor de la transición */
-.contenedor-imagen {
-  width: 100%;
-  height: 700px;
-  position: relative;
-  overflow: hidden;
+        /* Estilos para el contenedor de la transición */
+        .contenedor-imagen {
+            width: 100%;
+            height: 620px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Estilos para las imágenes */
+        .contenedor-imagen img {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Estilo para mostrar la primera imagen */
+        .contenedor-imagen img:first-child {
+            opacity: 1;
+        }
+
+        /* Estilo para las imágenes anteriores */
+        .image-previous {
+            opacity: 0.5;
+            left: -100%;
+        }
+
+        /* Estilos para los botones */
+        button {
+    margin: 0;
+    padding: 10px 20px; /* Aumentamos el padding para un aspecto más moderno */
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo con transparencia */
+    color: #fff; /* Color de texto blanco */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s, color 0.3s; /* Efecto de transición */
+    outline: none; /* Quitamos el borde al hacer clic */
 }
 
-/* Estilos para las imágenes */
-.contenedor-imagen img {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+button:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Cambio de color al pasar el mouse */
 }
 
-/* Estilo para mostrar la primera imagen */
-.contenedor-imagen img:first-child {
-  opacity: 1;
-}
+        #anterior {
+            left: 10px; /* Ajusta la posición horizontal del botón "Anterior" */
+        }
 
-/* Estilo para las imágenes anteriores */
-.image-previous {
-  opacity: 0.5;
-  left: -100%; /* Mover la imagen a la izquierda para que se muestre al lado */
-}
-</style>
+        #siguiente {
+            right: 10px; /* Ajusta la posición horizontal del botón "Siguiente" */
+        }
+    </style>
 
 <script>
 var currentImage = 0;
 var images = document.querySelectorAll('.contenedor-imagen img');
+var anteriorButton = document.getElementById('anterior');
+var siguienteButton = document.getElementById('siguiente');
 
-function changeImage() {
-  images[currentImage].classList.add('image-previous'); // Agregar clase a la imagen anterior
+// Función para avanzar a la siguiente imagen
+function avanzar() {
+  images[currentImage].classList.add('image-previous');
   images[currentImage].style.opacity = 0;
-
   currentImage = (currentImage + 1) % images.length;
-
   images[currentImage].style.opacity = 1;
-  images[currentImage].classList.remove('image-previous'); // Eliminar clase de la imagen anterior
+  images[currentImage].classList.remove('image-previous');
 }
 
-setInterval(changeImage, 6000); // Cambia la imagen cada 3 segundos
+// Función para retroceder a la imagen anterior
+function retroceder() {
+  images[currentImage].classList.add('image-previous');
+  images[currentImage].style.opacity = 0;
+  currentImage = (currentImage - 1 + images.length) % images.length;
+  images[currentImage].style.opacity = 1;
+  images[currentImage].classList.remove('image-previous');
+}
+
+// Manejadores de clic para los botones
+anteriorButton.addEventListener('click', retroceder);
+siguienteButton.addEventListener('click', avanzar);
+
+// Cambia la imagen automáticamente cada 6 segundos
+setInterval(avanzar, 6000);
 </script>
+
+>Aquí te presentamos un poco de lo que se puede ver en **Asana**, ámbito de intervención del MRSE-H de la EPS Ilo.
 
 Column {data-width=300}
 ---
@@ -129,7 +178,7 @@ embed_xaringan("m2/pres.html",ratio="4:3")
 <center>
 
 ```{r}
-embed_youtube("FqETSuNF4ks", height = 195, width = 325,allowfullscreen = TRUE)
+embed_youtube("FqETSuNF4ks", height = 200, width = NULL,allowfullscreen = TRUE)
 ```
 
 </center>
@@ -137,7 +186,103 @@ embed_youtube("FqETSuNF4ks", height = 195, width = 325,allowfullscreen = TRUE)
 Mapa {data-icon="fa-map"}
 ===
 
-<iframe width="1500" height="690" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.05268,-70.48505,13.07z"></iframe>
+<!-- <iframe width="1500" height="690" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.05268,-70.48505,13.07z"></iframe> -->
+
+```{r}
+library(openair)
+library(openairmaps)
+library(dplyr)
+library(leaflet)
+library(sf)
+library(leaflet.extras)
+
+testigo <- read_sf("shp/cuencas.shp") %>% 
+   filter(nombre == "panturane") %>% 
+  as_Spatial()
+
+interv <- read_sf("shp/cuencas.shp") %>%
+   filter(nombre == "hua\u00f1uma") %>% 
+  as_Spatial()
+
+est <- read_sf("shp/estación.shp") %>%
+  as_Spatial()
+
+zanja <- read_sf("shp/zanjas.shp") %>%
+  as_Spatial()
+# lat = -17.062465, lon = -70.464032
+polar_data$lat <- -17.062465
+polar_data$lon <- -70.464032
+polar_data$nox <- polar_data$ws
+
+Colores <- c("#a6cee3", "#1f78b4",
+             "#b2df8a", "#33a02c",
+             "#fb9a99","#ff7f00")
+
+infil <- unique(zanja$Comunero)
+# Paleta leaflet
+pal <- colorFactor(Colores, domain = infil) 
+
+polar_data %>%
+  openair::cutData("weekend") %>%
+  buildPopup(
+    cols = c("site", "site_type", "date", "nox"),
+    names = c(
+      "Site" = "site",
+      "Site Type" = "site_type",
+      "Date Range" = "date",
+      "Average nox" = "nox"
+    ),
+    control = "weekend"
+  ) %>%
+  pollroseMap(pollutant = "nox",
+              popup = "popup",
+              breaks = 6,
+              control = "weekend") %>%
+  addProviderTiles("OpenStreetMap",
+                   group = "OpenStreetMap") %>%
+  addProviderTiles(providers$Esri.WorldTopoMap,
+                   group = "Topográfico") %>%
+  addPolygons(
+    data = testigo,
+    popup = "Testigo",
+    fillColor = "skyblue",
+    color = "white",
+    label = ~nombre, group = "Cuencas") %>% 
+  addPolygons(
+    data = interv,
+    popup = "Estudio",
+    fillColor = "aquamarine",
+    color = "red",
+    label = ~nombre, group = "Cuencas") %>% 
+  addPolylines(data = zanja, group = "Zanjas",
+               col = ~pal(Comunero)) %>% 
+  addAwesomeMarkers(data = est,
+                    popup = "Estación pluviométrica",
+                    group = "Estación") %>% 
+  addDrawToolbar(targetGroup = "Borrador", 
+                 editOptions = editToolbarOptions(
+                   selectedPathOptions = selectedPathOptions())) %>% 
+  addLayersControl(
+    overlayGroups = c("Cuencas",
+                      "Estación",
+                      "Zanjas",
+                      "Dibujo"),
+    options = layersControlOptions(
+      collapsed = FALSE),
+    baseGroups = c(
+      "OpenStreetMap",
+      "Topográfico")) %>% 
+  hideGroup(c("Estación","Dibujo")) %>% 
+  addMeasurePathToolbar(
+    options = measurePathOptions(
+      imperial = FALSE,
+      showDistances = TRUE)) %>% 
+  addStyleEditor() %>% 
+  addLegend(title = "Leyenda",
+            data = zanja, group = "Zanjas",
+            pal = pal,values = ~Comunero)
+```
+
 
 > **En este apartado se muestra un mapa web para ubicar espacialmente los elementos de nuestras intervenciones en Asana.**
 
