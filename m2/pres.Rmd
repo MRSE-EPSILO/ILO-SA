@@ -7,7 +7,7 @@ date: "<b>`r Sys.Date()`</b>"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
-    self_contained: true
+    self_contained: false
     lib_dir: libs
     seal: false
     nature:
@@ -60,3 +60,23 @@ Prácticas como el sobrepastoreo deteriora los ecosistemas reguladores, cambio c
 ## Regulación hídrica
 
 El ecosistema almacena agua en los periodos lluviosos y se libera lentamente en los periodos secos o de estiaje, proporcionando un balance natural entre caudales en época lluviosa con caudales de época seca. A mayor capacidad de regulación, mayores serán los caudales de regulación.
+
+---
+
+## Los MRSE-H
+
+Los Mecanismos de Retribución por Servicios Ecosistémicos Hídricos **(MRSE-H)** surgen como instrumentos para hacer uso conciente de recursos para realizar acciones de conservación, recuperación y uso sostenible de los ecosistemas por medio de acuerdos voluntarios entre **contribuyentes** y **retribuyentes**.
+
+1. Un **contribuyente** es aquel que realiza acciones de recuparación, conservación y uso sostenible de los **servicios ecosistémicos.**
+
+1. Un **retribuyente** es aquel que obtiene un beneficio de los contribuyentes y por ello retribuye a los contribuyentes por el servicio ecosistémico recibido.
+
+![](seh.png)
+
+---
+
+## MRSE-H de la EPS ILO S.A.
+
+La **Empresa Prestadora de Servicios de Saneamiento Ilo Sociedad Anónima** ha asumido el compromiso de ejecutar acciones de MRSE-H realizando intervención en la cabecera de la cuenca Ilo-Moquegua con ayuda de la Comunidad Campesina de Asana.
+
+![](mrse-h.png)
