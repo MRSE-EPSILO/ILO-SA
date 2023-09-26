@@ -20,15 +20,14 @@ library(flexdashboard)
 library(highcharter)
 library(tidyverse)
 library(xts)
-#library(DT)
-library(xaringanExtra)
 library(plotly)
 library(ggthemes)
-#library(openair)
 library(lubridate)
-library(ragg)
 library(vembedr)
+library(leaflet)
+library(sf)
 ```
+
 
 Presentación {data-icon="fa-droplet"}
 ===
@@ -37,29 +36,29 @@ Column {data-width=200}
 ---
 <center>
 <!-- ![](https://cdn.www.gob.pe/uploads/campaign/photo/000/001/008/Logo-EALV-sin-fondo.png){width="200"} -->
-![](mrse_logo.png){width="100%"}
+![](mrse_logo.png){width="85%"}
+
 </center>
 
-### <span style="color:darkblue;font-weight:bold;">Bienvenida</span>
+### <span style="color:darkblue;font-weight:bold;">Bienvenida a esta plataforma de acceso público</span>
 
 ***MRSE-H de la EPS Ilo S.A.***
 
 > EPS Ilo S.A. realiza implementación del Plan de Intervención los MRSE en la Comunidad Campesina de Asana con la finalidad de conservación y recuperación de los Servicios Ecosistémicos Hídricos.
 
-***Bienvenido a esta plataforma de acceso público***
-
 ***Equipo MRSE***
 <br><br>
 <center>
-**Correo del MRSE**<br>
-Puedes comunicarte a través del correo:<br>
-mrse.epsilo@gmail.com
+
+```{r}
+embed_youtube("FqETSuNF4ks", height = 215, width = NULL,allowfullscreen = TRUE)
+```
 </center>
 
 Column {.tabset data-width="500" .tabset-fade}
 ---
 
-### <span style="color:darkblue;font-weight:bold;">Ubicación de las intervenciones</span>
+### <span style="color:darkblue;font-weight:bold;">NOSOTROS</span>
 
 <div class="contenedor-imagen">
   <img src="fondo2.jpg" alt="Imagen 1">
@@ -163,150 +162,70 @@ siguienteButton.addEventListener('click', avanzar);
 setInterval(avanzar, 6000);
 </script>
 
->Aquí te presentamos un poco de lo que se puede ver en **Asana**, ámbito de intervención del MRSE-H de la EPS Ilo.
-
-Column {data-width=300}
----
-
-### <span style="color:darkblue;font-weight:bold;">Presentación del MRSE-H </span>
-
-> Si deseas visualizar la presentación en modo pantalla completa presiona **F**. También posee controles adicionales, para conocerlos presiona **H** después de haber seleccionado la presentación.
-
-```{r}
-embed_xaringan("m2/pres.html",ratio="4:3")
-```
 <center>
-
-```{r}
-embed_youtube("FqETSuNF4ks", height = 200, width = NULL,allowfullscreen = TRUE)
-```
-
+> Puedes comunicarte con nosotros a través del correo: mrse.epsilo@gmail.com
 </center>
 
-Mapa {data-icon="fa-map"}
-===
-
-<!-- <iframe width="1500" height="690" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-q4wyI3qcRr6gFqjR8mxgPC?loc=-17.05268,-70.48505,13.07z"></iframe> -->
+### <span style="color:darkblue;font-weight:bold;">MAPA WEB</span>
 
 ```{r}
-library(openair)
-library(openairmaps)
-library(dplyr)
-library(leaflet)
-library(sf)
-library(leaflet.extras)
-
-testigo <- read_sf("shp/cuencas.shp") %>% 
-   filter(nombre == "panturane") %>% 
+microcuencas <- read_sf("shp/cuencas.shp") %>% 
   as_Spatial()
 
-interv <- read_sf("shp/cuencas.shp") %>%
-   filter(nombre == "hua\u00f1uma") %>% 
+estacion <- read_sf("shp/estación.shp") %>% 
   as_Spatial()
 
-est <- read_sf("shp/estación.shp") %>%
+qocha <- read_sf("shp/qocha.shp") %>% 
   as_Spatial()
 
 zanja <- read_sf("shp/zanjas.shp") %>%
   as_Spatial()
-# lat = -17.062465, lon = -70.464032
-polar_data$lat <- -17.062465
-polar_data$lon <- -70.464032
-polar_data$nox <- polar_data$ws
-
 Colores <- c("#a6cee3", "#1f78b4",
              "#b2df8a", "#33a02c",
              "#fb9a99","#ff7f00")
-
 infil <- unique(zanja$Comunero)
-# Paleta leaflet
 pal <- colorFactor(Colores, domain = infil) 
 
-polar_data %>%
-  openair::cutData("weekend") %>%
-  buildPopup(
-    cols = c("site", "site_type", "date", "nox"),
-    names = c(
-      "Site" = "site",
-      "Site Type" = "site_type",
-      "Date Range" = "date",
-      "Average nox" = "nox"
-    ),
-    control = "weekend"
-  ) %>%
-  pollroseMap(pollutant = "nox",
-              popup = "popup",
-              breaks = 6,
-              control = "weekend") %>%
-  addProviderTiles("OpenStreetMap",
-                   group = "OpenStreetMap") %>%
-  addProviderTiles(providers$Esri.WorldTopoMap,
-                   group = "Topográfico") %>%
+leaflet() %>% 
+  addProviderTiles(
+    providers$OpenStreetMap,
+    group = "OpenStreetMap") %>% 
+  addProviderTiles(
+    providers$Esri.WorldImagery,
+    group = "Color natural") %>% 
   addPolygons(
-    data = testigo,
-    popup = "Testigo",
+    data = microcuencas,
+    popup = "Unidad Hidrológica",
     fillColor = "skyblue",
     color = "white",
     label = ~nombre, group = "Cuencas") %>% 
-  addPolygons(
-    data = interv,
-    popup = "Estudio",
-    fillColor = "aquamarine",
-    color = "red",
-    label = ~nombre, group = "Cuencas") %>% 
+  addMarkers(data = estacion,
+             popup = "Estación pluviométrica",
+             group = "Pluviómetro") %>% 
+  addMarkers(data = qocha,
+             popup = "Qocha",
+             group = "Qocha") %>% 
   addPolylines(data = zanja, group = "Zanjas",
                col = ~pal(Comunero)) %>% 
-  addAwesomeMarkers(data = est,
-                    popup = "Estación pluviométrica",
-                    group = "Estación") %>% 
-  addDrawToolbar(targetGroup = "Borrador", 
-                 editOptions = editToolbarOptions(
-                   selectedPathOptions = selectedPathOptions())) %>% 
   addLayersControl(
-    overlayGroups = c("Cuencas",
-                      "Estación",
-                      "Zanjas",
-                      "Dibujo"),
+    overlayGroups = c(
+      "Cuencas",
+      "Pluviómetro",
+      "Qocha",
+      "Zanjas"),
     options = layersControlOptions(
       collapsed = FALSE),
     baseGroups = c(
       "OpenStreetMap",
-      "Topográfico")) %>% 
-  hideGroup(c("Estación","Dibujo")) %>% 
-  addMeasurePathToolbar(
-    options = measurePathOptions(
-      imperial = FALSE,
-      showDistances = TRUE)) %>% 
-  addStyleEditor() %>% 
-  addLegend(title = "Leyenda",
-            data = zanja, group = "Zanjas",
-            pal = pal,values = ~Comunero)
+      "Color natural"))
 ```
 
 
-> **En este apartado se muestra un mapa web para ubicar espacialmente los elementos de nuestras intervenciones en Asana.**
+### <span style="color:darkblue;font-weight:bold;">DIAPOSITIVAS</span>
 
-Noticias {.storyboard data-icon="fa-newspaper"}
-===
-
-### EL INICIO DE LA IMPLEMENTACIÓN
-![](TIME_LINE/F1.png)
-
-### SUPERVISIÓN DE ZANJAS DE INFILTRACIÓN
-
-![](TIME_LINE/F1.1.png)
-
-### VERIFICACIÓN DE INSTALACIÓN DE PLUVIÓMETRO
-
-![](TIME_LINE/F2.png)
-
-### PARTICIPACIÓN EN PLATAFORMA DE BUENA GOBERNANZA
-
-![](TIME_LINE/F3.png)
-
-### APROBACIÓN DEL ACUERDO MERESE ANTE EL MINAM
-
-![](TIME_LINE/F4.png)
+```{r}
+xaringanExtra::embed_xaringan("m2/pres.html",ratio="4:3")
+```
 
 Precipitación {data-icon="fa-chart-simple"}
 ===
@@ -314,6 +233,7 @@ Precipitación {data-icon="fa-chart-simple"}
 ## Column {data-width="600"}
 
 ### <span style="color:darkblue;font-weight:bold;">GRÁFICO DE CALENDARIO</span>
+
 
 ```{r}
 # Carga de las bases de datos:
@@ -522,3 +442,123 @@ valueBox(max(df$fecha), icon = "fa-pencil")
 ```{r}
 ggplotly(a1)
 ```
+
+
+Datos futuros {data-icon="fa-chart-simple"}
+===
+
+## Column {data-width="600"}
+
+### <span style="color:darkblue;font-weight:bold;">GRÁFICO DE DATOS DIARIOS</span>
+
+```{r}
+data <- read.csv("simulados.csv")
+data$fecha_hora <- as.POSIXct(
+  data$fecha_hora,format="%Y-%m-%d %H:%M")
+
+pp <- data %>% mutate(
+  fecha_hora = as.Date(
+    fecha_hora, format = "%Y-%m-%d")) %>% 
+  group_by(fecha_hora) %>% 
+  summarise(precipitacion = sum(precipitacion, na.rm = T)) %>% 
+  select(fecha_hora, precipitacion)
+
+s <- data %>% mutate(
+  fecha_hora = as.Date(
+    fecha_hora, format = "%Y-%m-%d")) %>% 
+  group_by(fecha_hora) %>% 
+  summarise_if(is.numeric,.funs = mean)
+
+s$precipitacion <- pp$precipitacion
+
+highchart() %>%
+  hc_title(text = "Estación Asana (Datos diarios)") %>%
+  hc_xAxis(type = "datetime") %>%
+  hc_add_series(data = s, type = "line",
+                hcaes(x = fecha_hora, y = precipitacion),
+                name = "Precipitacion", color = "#3182BD") %>%
+  hc_add_series(data = s, type = "line",
+                hcaes(x = fecha_hora, y = temperatura),
+                name = "Temperatura", color = "hotpink") %>%
+  hc_add_series(data = s, type = "line",
+                hcaes(x = fecha_hora, y = humedad),
+                name = "Humedad", color = "turquoise") %>%
+  hc_exporting(
+    enabled = TRUE,
+    buttons = list(
+      contextButton = list(
+        menuItems = c("downloadPNG",
+                      "downloadPDF",
+                      "downloadCSV",
+                      "downloadXLS")
+      )
+    )
+  ) %>% 
+  hc_xAxis(type = "datetime", showLastLabel = TRUE,
+           dateTimeLabelFormats = list(month = "%B")) %>% 
+  hc_tooltip(shared = TRUE, useHTML = TRUE) %>% 
+  hc_chart(zoomType = "x")
+```
+
+## Column {data-width="350"}
+
+### Precipitación acumulada total
+
+```{r}
+valueBox(paste0(sum(df$Precipitacion, na.rm=T)," milímetros"), icon = "fa-droplet")
+
+```
+
+### Temperatura media
+
+```{r}
+valueBox(paste0(round(mean(s$temperatura, na.rm=T),2),"°C"), icon = "fa-temperature-empty",color = "hotpink")
+```
+
+### Humedad Relativa media
+
+```{r}
+valueBox(paste0(round(mean(s$humedad, na.rm=T),2)," %"),
+         icon = "fa-cloud",color = "turquoise")
+```
+
+### Inicio de mediciones
+
+```{r}
+valueBox(min(df$fecha), icon = "fa-pencil")
+```
+
+### Última dato descargado de la estación
+
+```{r}
+valueBox(max(df$fecha), icon = "fa-pencil")
+```
+
+### Mapa web
+
+<iframe width="100%" height="450" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/ASANA-zpj9BLDoUSDaneE59AUwK9APD?loc=-17.04423,-70.49779,13.14z"></iframe>
+
+
+Noticias {.storyboard data-icon="fa-newspaper"}
+===
+  
+### EL INICIO DE LA IMPLEMENTACIÓN
+
+![](TIME_LINE/F1.png)
+
+### SUPERVISIÓN DE ZANJAS DE INFILTRACIÓN
+
+![](TIME_LINE/F1.1.png)
+
+### VERIFICACIÓN DE INSTALACIÓN DE PLUVIÓMETRO
+
+![](TIME_LINE/F2.png)
+
+### PARTICIPACIÓN EN PLATAFORMA DE BUENA GOBERNANZA
+
+![](TIME_LINE/F3.png)
+
+### APROBACIÓN DEL ACUERDO MERESE ANTE EL MINAM
+
+![](TIME_LINE/F4.png)
+
