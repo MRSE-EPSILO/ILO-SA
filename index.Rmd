@@ -534,6 +534,11 @@ valueBox(min(df$fecha), icon = "fa-pencil")
 valueBox(max(df$fecha), icon = "fa-pencil")
 ```
 
+### Mapa web
+
+<iframe width="100%" height="450" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/ASANA-zpj9BLDoUSDaneE59AUwK9APD?loc=-17.04423,-70.49779,13.14z"></iframe>
+
+
 Noticias {.storyboard data-icon="fa-newspaper"}
 ===
   
