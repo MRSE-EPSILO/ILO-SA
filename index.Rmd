@@ -168,64 +168,14 @@ setInterval(avanzar, 6000);
 
 ### <span style="color:darkblue;font-weight:bold;">MAPA WEB</span>
 
-```{r}
-microcuencas <- read_sf("shp/cuencas.shp") %>% 
-  as_Spatial()
-
-estacion <- read_sf("shp/estación.shp") %>% 
-  as_Spatial()
-
-qocha <- read_sf("shp/qocha.shp") %>% 
-  as_Spatial()
-
-zanja <- read_sf("shp/zanjas.shp") %>%
-  as_Spatial()
-Colores <- c("#a6cee3", "#1f78b4",
-             "#b2df8a", "#33a02c",
-             "#fb9a99","#ff7f00")
-infil <- unique(zanja$Comunero)
-pal <- colorFactor(Colores, domain = infil) 
-
-leaflet() %>% 
-  addProviderTiles(
-    providers$OpenStreetMap,
-    group = "OpenStreetMap") %>% 
-  addProviderTiles(
-    providers$Esri.WorldImagery,
-    group = "Color natural") %>% 
-  addPolygons(
-    data = microcuencas,
-    popup = "Unidad Hidrológica",
-    fillColor = "skyblue",
-    color = "white",
-    label = ~nombre, group = "Cuencas") %>% 
-  addMarkers(data = estacion,
-             popup = "Estación pluviométrica",
-             group = "Pluviómetro") %>% 
-  addMarkers(data = qocha,
-             popup = "Qocha",
-             group = "Qocha") %>% 
-  addPolylines(data = zanja, group = "Zanjas",
-               col = ~pal(Comunero)) %>% 
-  addLayersControl(
-    overlayGroups = c(
-      "Cuencas",
-      "Pluviómetro",
-      "Qocha",
-      "Zanjas"),
-    options = layersControlOptions(
-      collapsed = FALSE),
-    baseGroups = c(
-      "OpenStreetMap",
-      "Color natural"))
-```
-
+![](felt.png)
 
 ### <span style="color:darkblue;font-weight:bold;">DIAPOSITIVAS</span>
 
 ```{r}
-xaringanExtra::embed_xaringan("m2/pres.html",ratio="4:3")
+xaringanExtra::embed_xaringan("m2/pres.html")
 ```
+
 
 Precipitación {data-icon="fa-chart-simple"}
 ===
@@ -238,24 +188,24 @@ Precipitación {data-icon="fa-chart-simple"}
 ```{r}
 # Carga de las bases de datos:
 df0 <- read.csv("mayo.csv")[1:6584,-1]
-df <- read.csv("Estacion_julio_0.csv",
-               sep = ",")
-names(df) <- c("fecha","Precipitacion")
-df <- df %>% 
-  mutate(fecha= as.POSIXct(
-    fecha,format="%m/%d/%Y %H:%M"))
+
+df1 <- read.csv("setiembre.csv",skip = 1)[,-1]
+names(df1) <- c("fecha","Precipitacion")
+
 df0 <- df0 %>% 
   mutate(fecha= as.POSIXct(
     paste(fecha,hora,sep=" "),
     format="%Y-%m-%d %H:%M")) %>% 
   select(fecha,Precipitacion)
 
+df1$fecha <- as.POSIXct(
+  df1$fecha,format = "%y/%m/%d %H:%M")
 # Data completa:
-df <- rbind(df0,df)
+df <- rbind(df0,df1)
 
 # Datos diarios:
 
-df3 <- df[,c(1,2)] %>% mutate(
+df3 <- df %>% mutate(
   fecha = as.Date(fecha, format="%Y-%m-%d"),
   fecha1 = format(fecha, format = "%Y-%m"),
   fecha2 = format(fecha, format = "%m"),
@@ -408,6 +358,7 @@ highchart(type = "stock") %>%
 ```
 
 
+
 ## Column {data-width="350"}
 
 ### <span style="color:darkblue;font-weight:bold;">GRÁFICO DE BARRAS</span>
@@ -418,31 +369,26 @@ ggplotly(p=m2)
 
 ## Column {data-width="350"}
 
-### Precipitación acumulada total
-
+### Precipitación acumulada
 ```{r}
 valueBox(paste0(sum(df$Precipitacion, na.rm=T)," milímetros"), icon = "fa-droplet")
-
 ```
 
-### Inicio de mediciones
+### Inicio de registro
 
 ```{r}
 valueBox(min(df$fecha), icon = "fa-pencil")
 ```
 
-### Última dato descargado de la estación
+### Último registro
 
 ```{r}
 valueBox(max(df$fecha), icon = "fa-pencil")
 ```
 
-### <span style="color:darkblue;font-weight:bold;">GRÁFICO DE CAJAS</span>
+### <span style="color:darkblue;font-weight:bold;">INTERVENCIONES</span>
 
-```{r}
-ggplotly(a1)
-```
-
+<iframe width="100%" height="450" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/MRSE-H-YL2D8IAiQoucf0SETYCFBC?loc=-17.04095,-70.48828,12.2z"></iframe>
 
 Datos futuros {data-icon="fa-chart-simple"}
 ===
@@ -500,7 +446,7 @@ highchart() %>%
   hc_chart(zoomType = "x")
 ```
 
-## Column {data-width="350"}
+## Column {data-width="200"}
 
 ### Precipitación acumulada total
 
@@ -522,21 +468,17 @@ valueBox(paste0(round(mean(s$humedad, na.rm=T),2)," %"),
          icon = "fa-cloud",color = "turquoise")
 ```
 
-### Inicio de mediciones
+### Rango de mediciones
 
 ```{r}
-valueBox(min(df$fecha), icon = "fa-pencil")
-```
-
-### Última dato descargado de la estación
-
-```{r}
-valueBox(max(df$fecha), icon = "fa-pencil")
+valueBox(paste(min(df$fecha),max(df$fecha),sep=" al ") , icon = "fa-pencil")
 ```
 
 ### Mapa web
 
-<iframe width="100%" height="450" frameborder="0" title="Felt Map" src="https://felt.com/embed/map/ASANA-zpj9BLDoUSDaneE59AUwK9APD?loc=-17.04423,-70.49779,13.14z"></iframe>
+```{r eval=FALSE}
+embed_url("https://e.notionhero.io/e1/p/57d29dc-31d5fc890fede99023a3b883131fce2")
+```
 
 
 Noticias {.storyboard data-icon="fa-newspaper"}
